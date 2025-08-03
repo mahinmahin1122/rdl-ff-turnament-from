@@ -174,6 +174,76 @@
       0% { transform: rotate(0deg);}
       100% { transform: rotate(360deg);}
     }
+
+    /* 💬 Help Center Box */
+    #helpCenter {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    #helpIcon {
+      background-color: #1e293b;
+      color: #38bdf8;
+      border: 2px solid #38bdf8;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    #helpIcon:hover {
+      background-color: #0f172a;
+      transform: translateY(-2px);
+    }
+
+    #helpOptions {
+      display: none;
+      position: absolute;
+      bottom: 60px;
+      right: 0;
+      background-color: #1e293b;
+      border: 1px solid #38bdf8;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      overflow: hidden;
+      min-width: 220px;
+      text-align: left;
+    }
+
+    #helpOptions::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      right: 20px;
+      border-width: 10px;
+      border-style: solid;
+      border-color: #1e293b transparent transparent transparent;
+    }
+
+    #helpOptions a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      color: #f1f5f9;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.2s ease;
+    }
+
+    #helpOptions a:hover {
+      background-color: #334155;
+    }
+
+    #helpOptions img {
+      width: 22px;
+      height: 22px;
+    }
   </style>
 </head>
 <body>
@@ -213,10 +283,23 @@
     &copy; 2025 RDL eSports. All Rights Reserved. | Powered by Gamers of Bangladesh 🇧🇩
   </footer>
 
-  <!-- ✅ Loading Overlay -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
-    <div>Redirecting to registration form...</div>
+  </div>
+
+  <!-- 💬 Help Center -->
+  <div id="helpCenter">
+    <button id="helpIcon">Help Center</button>
+    <div id="helpOptions">
+<a href="https://t.me/rdlsupport" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
+  Telegram Support
+</a>
+     <a href="https://wa.me/8801942811883?text=Hello%20RDL%20Tournament%20Team%2C%20I%20need%20to%20help." target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+  WhatsApp Support
+</a>
+    </div>
   </div>
 
   <script type="module">
@@ -239,11 +322,10 @@
     const registerBtn = document.getElementById("registerBtn");
     const overlay = document.getElementById("loadingOverlay");
 
-    // ✅ Fix for mobile navigation back showing overlay
-    window.addEventListener('pageshow', (event) => {
-  if (overlay) overlay.style.display = 'none';
-  checkRegistrationStatus(); // fixes back navigation issue
-});
+    window.addEventListener('pageshow', () => {
+      if (overlay) overlay.style.display = 'none';
+      checkRegistrationStatus();
+    });
 
     function createLoadingDots() {
       registerBtn.innerHTML = `Loading<span class="dot"></span><span class="dot"></span><span class="dot"></span>`;
@@ -274,8 +356,7 @@
     function setButtonDisabled() {
       registerBtn.textContent = "Registration Closed";
       registerBtn.disabled = true;
-      registerBtn.classList.remove("loading");
-      registerBtn.classList.remove("enabled");
+      registerBtn.classList.remove("loading", "enabled");
       registerBtn.style.cursor = "not-allowed";
       registerBtn.setAttribute("aria-busy", "false");
     }
@@ -304,6 +385,20 @@
     }
 
     checkRegistrationStatus();
+
+    // 💬 Help Center toggle logic
+    const helpIcon = document.getElementById("helpIcon");
+    const helpOptions = document.getElementById("helpOptions");
+
+    helpIcon.addEventListener("click", () => {
+      helpOptions.style.display = helpOptions.style.display === "block" ? "none" : "block";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (!helpIcon.contains(e.target) && !helpOptions.contains(e.target)) {
+        helpOptions.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
