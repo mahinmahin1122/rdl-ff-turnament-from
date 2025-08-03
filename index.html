@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>RDL FF TOURNAMENT - Official Entry</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      color: #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #0f172a;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 4px solid #38bdf8;
+      animation: fadeSlide 1s ease-in-out;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header h1 {
+      margin: 0;
+      color: #38bdf8;
+      font-size: 2.2rem;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      color: #f1f5f9;
+      font-size: 1rem;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    h2 {
+      color: #facc15;
+      font-size: 1.7rem;
+      margin-bottom: 12px;
+    }
+
+    .intro {
+      margin-bottom: 20px;
+    }
+
+    .rules {
+      background-color: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(148, 163, 184, 0.2);
+      margin-bottom: 30px;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .rules h3 {
+      margin-top: 0;
+      color: #7dd3fc;
+    }
+
+    .rules li {
+      margin: 10px 0;
+      font-size: 1.05rem;
+    }
+
+    #registerBtn {
+      display: inline-block;
+      width: 220px;
+      padding: 15px;
+      background-color: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: not-allowed;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #registerBtn.enabled {
+      cursor: pointer;
+      background-color: #38bdf8;
+      animation: none;
+    }
+
+    #registerBtn.enabled:hover {
+      background-color: #0ea5e9;
+    }
+
+    #registerBtn.loading span.dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #0f172a;
+      border-radius: 50%;
+      animation-name: blink;
+      animation-duration: 1.2s;
+      animation-iteration-count: infinite;
+    }
+
+    #registerBtn.loading span.dot:nth-child(1) { animation-delay: 0s; }
+    #registerBtn.loading span.dot:nth-child(2) { animation-delay: 0.2s; }
+    #registerBtn.loading span.dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      background-color: #0f172a;
+    }
+
+    #loadingOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.96);
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #38bdf8;
+      font-size: 1.3rem;
+    }
+
+    .spinner {
+      border: 6px solid #334155;
+      border-top: 6px solid #38bdf8;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔥 RDL FF TOURNAMENT 🔥</h1>
+    <p>Official Battle Arena - 2025</p>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h2>Welcome Warriors! 👑</h2>
+      <p>
+        Gear up for the most thrilling Free Fire tournament in Bangladesh! 💥
+        With a massive prize pool, fierce competition, and a chance to make your squad legendary — this is your battleground!
+      </p>
+    </div>
+
+    <div class="rules">
+      <h3>📜 Rules & Guidelines:</h3>
+      <ul>
+        <li>🎮 Squad-based format (Max 4 players per team)</li>
+        <li>📱 Only mobile devices allowed (no emulators)</li>
+        <li>💸 Entry fee must be paid to confirm spot</li>
+        <li>📷 Screenshot proof is mandatory for any payment issues</li>
+        <li>🚫 Use of hacks or mods = immediate disqualification</li>
+        <li>🛑 No abusive behavior towards opponents or admins</li>
+        <li>⏰ Deadline: 24 hours before match starts</li>
+      </ul>
+    </div>
+
+    <button id="registerBtn" disabled>
+      Loading<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </button>
+  </main>
+
+  <footer>
+    &copy; 2025 RDL eSports. All Rights Reserved. | Powered by Gamers of Bangladesh 🇧🇩
+  </footer>
+
+  <!-- ✅ Loading Overlay -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div>Redirecting to registration form...</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtxFInTkMvFvvK_qkU9hgKvn93e5MyTrM",
+      authDomain: "rdl-ff.firebaseapp.com",
+      projectId: "rdl-ff",
+      storageBucket: "rdl-ff.appspot.com",
+      messagingSenderId: "646578920997",
+      appId: "1:646578920997:web:01d3bf60208d34163c69cc",
+      measurementId: "G-FWXBWBXS6H"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const registerBtn = document.getElementById("registerBtn");
+    const overlay = document.getElementById("loadingOverlay");
+
+    // ✅ Fix for mobile navigation back showing overlay
+    window.addEventListener('pageshow', (event) => {
+  if (overlay) overlay.style.display = 'none';
+  checkRegistrationStatus(); // fixes back navigation issue
+});
+
+    function createLoadingDots() {
+      registerBtn.innerHTML = `Loading<span class="dot"></span><span class="dot"></span><span class="dot"></span>`;
+      registerBtn.classList.add("loading");
+      registerBtn.disabled = true;
+      registerBtn.style.cursor = "not-allowed";
+      registerBtn.setAttribute("aria-busy", "true");
+    }
+
+    function setButtonEnabled() {
+      registerBtn.textContent = "🚀 Register Now";
+      registerBtn.disabled = false;
+      registerBtn.classList.remove("loading");
+      registerBtn.classList.add("enabled");
+      registerBtn.style.cursor = "pointer";
+      registerBtn.setAttribute("aria-busy", "false");
+
+      registerBtn.onclick = () => {
+        registerBtn.disabled = true;
+        registerBtn.style.cursor = "not-allowed";
+        overlay.style.display = "flex";
+        setTimeout(() => {
+          window.location.href = "register.html";
+        }, 1500);
+      };
+    }
+
+    function setButtonDisabled() {
+      registerBtn.textContent = "Registration Closed";
+      registerBtn.disabled = true;
+      registerBtn.classList.remove("loading");
+      registerBtn.classList.remove("enabled");
+      registerBtn.style.cursor = "not-allowed";
+      registerBtn.setAttribute("aria-busy", "false");
+    }
+
+    async function checkRegistrationStatus() {
+      createLoadingDots();
+
+      try {
+        const ref = doc(db, "tournament", "freefire");
+        const snapshot = await getDoc(ref);
+
+        if (snapshot.exists() && snapshot.data().freefire?.toLowerCase().trim() === "yes") {
+          setButtonEnabled();
+        } else {
+          setButtonDisabled();
+          registerBtn.onclick = () => {
+            alert("⚠️ Registration is currently not available.");
+          };
+        }
+      } catch (err) {
+        setButtonDisabled();
+        registerBtn.onclick = () => {
+          alert("⚠️ Could not connect to server. Try again later.");
+        };
+      }
+    }
+
+    checkRegistrationStatus();
+  </script>
+</body>
+</html>
